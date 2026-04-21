@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Watches TV</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f2ed;
+    --card: #fff;
+    --text: #1a1a1a;
+    --muted: #888;
+    --accent: #c0392b;
+    --border: #e8e4de;
+    --tag-bg: #f0ece6;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  header {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 24px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  header h1 span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  header p {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+
+  .filters {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: none;
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+  }
+
+  .review-card {
+    background: var(--card);
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s forwards;
+    transition: background 0.2s;
+  }
+
+  .review-card:hover { background: #faf8f5; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .review-card:nth-child(1) { animation-delay: 0.05s; }
+  .review-card:nth-child(2) { animation-delay: 0.1s; }
+  .review-card:nth-child(3) { animation-delay: 0.15s; }
+  .review-card:nth-child(4) { animation-delay: 0.2s; }
+  .review-card:nth-child(5) { animation-delay: 0.25s; }
+  .review-card:nth-child(6) { animation-delay: 0.3s; }
+  .review-card:nth-child(7) { animation-delay: 0.35s; }
+
+  .review-left { min-width: 0; }
+
+  .review-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .genre-tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .year {
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  .review-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .review-text {
+    font-size: 0.93rem;
+    line-height: 1.75;
+    color: #444;
+    max-width: 580px;
+  }
+
+  .verdict {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .rating-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .rating-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .rating-max {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    margin-top: 4px;
+  }
+
+  .star {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .star.filled { background: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 600px) {
+    .review-card { padding: 24px 20px; grid-template-columns: 1fr; }
+    .rating-block { flex-direction: row; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Mission <span>Watches</span> TV</h1>
+  <p>Honest reviews. No spoilers. Just what I actually think.</p>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter('all', this)">All</button>
+  <button class="filter-btn" onclick="filter('Drama', this)">Drama</button>
+  <button class="filter-btn" onclick="filter('Crime', this)">Crime</button>
+  <button class="filter-btn" onclick="filter('Thriller', this)">Thriller</button>
+  <button class="filter-btn" onclick="filter('Sci-Fi', this)">Sci-Fi</button>
+</div>
+
+<main id="reviews-grid"></main>
+
+<footer>Made by Mission Poudel &mdash; updated whenever I finish something worth talking about</footer>
+
+<script>
+const shows = [
+  {
+    title: "Game of Thrones",
+    year: "2011–2019",
+    genre: "Drama",
+    rating: 9.5,
+    verdict: "You don't watch it. You live in it. Until the ending.",
+    review: "This show pulls you in fast. The world feels real, the characters are actually interesting, and nothing goes the way you expect. When Daenerys said Dracarys for the first time I genuinely had to pause. The whole middle stretch of this show is just great television. Then the last season happened and it kind of fell apart — rushed endings, decisions that made no sense. Didn't ruin it but definitely left a bad taste. Still a 9.5 for everything before that."
+  },
+  {
+    title: "Breaking Bad",
+    year: "2008–2013",
+    genre: "Crime",
+    rating: 10,
+    verdict: "The best show ever made. No debate.",
+    review: "I don't know how to explain how good this show is without ruining it. It starts small — a chemistry teacher, a bad situation, a terrible decision. Then it just keeps going, and every episode somehow raises the stakes higher. Walter White is one of the most fascinating characters I've ever seen on screen. By the end I didn't know whether to root for him or hate him. Probably both. Watch this before anything else on this list."
+  },
+  {
+    title: "Peaky Blinders",
+    year: "2013–2022",
+    genre: "Crime",
+    rating: 9,
+    verdict: "Stylish, brutal, and impossible to stop watching.",
+    review: "Everything about this show has style. The music shouldn't work but it does. Tommy Shelby is cold and brilliant and you follow him even when you probably shouldn't. The first three seasons are the strongest — tight, focused, genuinely tense. It gets a bit bigger and messier toward the end but never loses its identity. Cillian Murphy carries the whole thing and makes it look easy."
+  },
+  {
+    title: "Chernobyl",
+    year: "2019",
+    genre: "Thriller",
+    rating: 10,
+    verdict: "Five episodes. Change your life.",
+    review: "This one hit me differently. It's only five episodes and it feels like the most efficient storytelling I've ever seen — not a single wasted scene. It's about the 1986 nuclear disaster but really it's about what happens when people in power refuse to admit they're wrong. The tension builds quietly until it's almost unbearable. I finished it in one sitting and sat in silence for a while after. That doesn't happen often."
+  },
+  {
+    title: "Prison Break",
+    year: "2005–2017",
+    genre: "Thriller",
+    rating: 7,
+    verdict: "Season 1 is a 9.5. Everything after is a bonus.",
+    review: "Season one of this show is genuinely one of the most addictive things I've watched. The plan, the tension, the characters — it all works perfectly. Not realistic at all but you stop caring about that pretty quickly. After season one it loses a bit of direction and you can feel them stretching it out. Still watchable but nothing comes close to that first season. Watch it for S1 alone and treat the rest as extra."
+  },
+  {
+    title: "House of the Dragon",
+    year: "2022–present",
+    genre: "Drama",
+    rating: 8,
+    verdict: "Better than the end of GOT. Much better.",
+    review: "I was skeptical going in because of how Game of Thrones ended. But this surprised me. The politics are layered, the family drama actually lands, and the dragons look incredible. It's slower than GOT — more about conversation and betrayal than action — which I think works in its favor. The second season gets darker and more complicated in a good way. This is what a proper successor should look like."
+  },
+  {
+    title: "Dark",
+    year: "2017–2020",
+    genre: "Sci-Fi",
+    rating: 9,
+    verdict: "The most ambitious show I've ever seen.",
+    review: "Dark is a German time travel show and it is genuinely complicated — multiple timelines, three generations, and a plot that keeps folding back on itself. It sounds exhausting but it's actually fascinating. You just have to pay attention and trust that it's going somewhere. And it does. By the final season everything starts clicking into place in a way that feels earned. One of those rare shows where the ending actually makes the whole thing better."
+  }
+];
+
+// Move Vikings to front
+const vikings = shows.find(s => s.title === "Vikings");
+const rest = shows.filter(s => s.title !== "Vikings");
+const orderedShows = [vikings, ...rest];
+
+function renderStars(rating) {
+  let html = '<div class="stars">';
+  for (let i = 1; i <= 10; i++) {
+    html += `<div class="star ${i <= rating ? 'filled' : ''}"></div>`;
+  }
+  return html + '</div>';
+}
+
+function renderCards(data) {
+  const grid = document.getElementById('reviews-grid');
+  grid.innerHTML = data.map((s, i) => `
+    <div class="review-card" data-genre="${s.genre}" style="animation-delay:${i * 0.05 + 0.05}s">
+      <div class="review-left">
+        <div class="review-meta">
+          <span class="genre-tag">${s.genre}</span>
+          <span class="year">${s.year}</span>
+        </div>
+        <div class="review-title">${s.title}</div>
+        <div class="review-text">${s.review}</div>
+        <div class="verdict">— ${s.verdict}</div>
+      </div>
+      <div class="rating-block">
+        <div class="rating-number">${s.rating}</div>
+        <div class="rating-max">out of 10</div>
+        ${renderStars(s.rating)}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filter(genre, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = genre === 'all' ? orderedShows : orderedShows.filter(s => s.genre === genre);
+  renderCards(filtered);
+}
+
+renderCards(orderedShows);
+</script>
+</body>
+</html>
